@@ -7,7 +7,6 @@ import { ArrowRight } from "lucide-react"
 export default function HeroSection() {
   return (
     <section id="home" className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#d4c4b0] pt-32 pb-24">
-      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
           src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.pXCAoEM5W_0TRSmEURjiMQHaE8%3Fcb%3D12%26pid%3DApi%26ucfimg%3D1&f=1&ipt=0604c2bf9000829a0542b7ff73fdb807aa705db50df95bf73c9a23fb86ae423d&ipo=images"
@@ -17,7 +16,6 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
       </div>
 
-      {/* Content */}
       <div className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
