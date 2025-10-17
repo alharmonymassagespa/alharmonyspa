@@ -18,11 +18,11 @@ export const metadata: Metadata = {
     title: "Alora - Professional Massage & Spa Booking",
     description:
       "Discover soothing treatments and personalized relaxation experiences. Book your perfect massage anytime, anywhere.",
-    url: "https://alora-spa.com",
+    url: "https://massage-spa-alora.vercel.app",
     siteName: "Alora",
     images: [
       {
-        url: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/original-ce1306aa5184d497d4968e47d0c7df59-ksFBlF1MehMWTYlkiPoQZYsSnkiOdl.webp",
+        url: "/alora-seo-image.webp",
         width: 1200,
         height: 630,
         alt: "Alora Spa & Massage",
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
     description:
       "Discover soothing treatments and personalized relaxation experiences. Book your perfect massage anytime, anywhere.",
     images: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/original-ce1306aa5184d497d4968e47d0c7df59-ksFBlF1MehMWTYlkiPoQZYsSnkiOdl.webp",
-    ],
+      "/alora-seo-image.webp",
+    ],   
   },
     generator: 'v0.app'
 }
