@@ -66,7 +66,11 @@ export default function Header() {
           <div className="w-10 h-10 bg-[#2ba2ba] rounded-xl flex items-center justify-center">
             <span className="text-white font-bold text-xl">A</span>
           </div>
-          <span className="text-2xl font-semibold text-[#2e2e2e]">Alora</span>
+          <span className={`text-2xl font-semibold  ${
+           scrolled ? "text-[#2e2e2e]" : "text-white"
+          }`}>
+            Alora
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -75,19 +79,30 @@ export default function Header() {
             scrolled ? "bg-transparent" : "backdrop-blur-sm bg-white/10"
           }`}
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={link.href}
-              className={`font-medium text-lg px-4 py-2 rounded-full transition-all duration-300 ${
-                isActive(link.id)
-                  ? "bg-white text-black shadow-sm"
-                  : "hover:bg-white hover:text-[#0d9488]"
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isLinkActive = isActive(link.id);
+
+            // Determine text + background styles
+            let linkClasses = "font-medium text-lg px-4 py-2 rounded-full transition-all duration-300 ";
+
+            if (isLinkActive) {
+              // Case 1: Active link
+              linkClasses += "bg-white text-black shadow-sm";
+            } else if (scrolled) {
+              // Case 2: Not active, but page has scrolled
+              linkClasses += "text-black hover:bg-white hover:text-[#0d9488]";
+            } else {
+              // Case 3: Not active, and still at top (hero section)
+              linkClasses += "text-white hover:bg-white hover:text-[#0d9488]";
+            }
+
+            return (
+              <a key={link.id} href={link.href} className={linkClasses}>
+                {link.label}
+              </a>
+            );
+          })}
+
         </div>
 
         {/* Book Now Button */}
