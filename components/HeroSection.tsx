@@ -12,9 +12,9 @@ export default function HeroSection() {
         <img
           src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.pXCAoEM5W_0TRSmEURjiMQHaE8%3Fcb%3D12%26pid%3DApi%26ucfimg%3D1&f=1&ipt=0604c2bf9000829a0542b7ff73fdb807aa705db50df95bf73c9a23fb86ae423d&ipo=images"
           alt="Relaxing spa massage"
-          className="w-full h-full object-cover backdrop-brightness-10"
+          className="w-full h-full object-cover backdrop-brightness-50"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#d4c4b0]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
       </div>
 
       {/* Content */}
@@ -25,7 +25,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8 }}
           className="max-w-xl"
         >
-          <div className="inline-block backdrop-blur-md shadow-md px-4 py-2 rounded-full mb-6">
+          <div className="inline-block backdrop-blur-md shadow-md px-4 py-2 rounded-full mb-6 border border-white">
             <p className="text-sm font-medium text-white">✨ Your Wellness, Our Priority</p>
           </div>
 
@@ -33,7 +33,7 @@ export default function HeroSection() {
             Relax, <span className="font-light">& Book Your Perfect Massage</span> Anytime, Anywhere
           </h1>
 
-          <p className="text-lg md:text-xl text-black mb-8 leading-relaxed font-light">
+          <p className="text-lg md:text-xl text-white mb-8 leading-relaxed font-light">
             Experience personalized wellness treatments designed to restore balance and tranquility to your body and mind.
           </p>
 
