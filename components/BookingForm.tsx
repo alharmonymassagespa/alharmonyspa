@@ -12,6 +12,15 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const timeSlots = [
+  "12:00 AM",
+  "01:00 AM",
+  "02:00 AM",
+  "03:00 AM",
+  "04:00 AM",
+  "05:00 AM",
+  "06:00 AM",
+  "07:00 AM",
+  "08:00 AM",
   "09:00 AM",
   "10:00 AM",
   "11:00 AM",
@@ -24,6 +33,9 @@ const timeSlots = [
   "06:00 PM",
   "07:00 PM",
   "08:00 PM",
+  "09:00 PM",
+  "10:00 PM",
+  "11:00 PM",
 ]
 
 export default function BookingForm() {
