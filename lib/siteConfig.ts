@@ -101,7 +101,7 @@ export const siteConfig = {
   ],
 
   social: {
-    whatsapp: "https://wa.me/15735513015",
+    whatsapp: "https://wa.me/17864691529",
     facebook: "https://facebook.com/share/168qzu82YK",
     snapchat: "https://www.snapchat.com/add/handlememass",
     email: "mailto:Makiah.Rana022@gmail.com", 

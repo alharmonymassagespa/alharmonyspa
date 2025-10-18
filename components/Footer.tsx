@@ -43,7 +43,7 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-4">Connect With Us</h3>
             <div className="flex gap-4">
               <a
-                href="https://wa.me/15735513015"
+                href="https://wa.me/17864691529"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
