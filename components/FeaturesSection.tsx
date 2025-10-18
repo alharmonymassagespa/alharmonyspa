@@ -12,8 +12,8 @@ const features = [
   },
   {
     icon: Users,
-    title: "Choose Your Ideal Therapist",
-    description: "Select from our team of certified massage therapy professionals.",
+    title: "Choose Your Ideal Masseuse",
+    description: "Select from our team of certified massage professionals.",
   },
   {
     icon: CreditCard,
@@ -27,8 +27,8 @@ const features = [
   },
   {
     icon: Shield,
-    title: "Trusted & Professional Therapists",
-    description: "All therapists are licensed, certified, and background-checked.",
+    title: "Trusted & Professional Masseuses",
+    description: "All masseuses are licensed, certified, and background-checked.",
   },
   {
     icon: Award,

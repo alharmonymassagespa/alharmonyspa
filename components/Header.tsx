@@ -61,19 +61,17 @@ export default function Header() {
       }`}
     >
       <nav className="container mx-auto px-6 md:px-12 py-5 flex items-center justify-between max-w-7xl">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <div className="w-10 h-10 bg-[#2ba2ba] rounded-xl flex items-center justify-center">
             <span className="text-white font-bold text-xl">A</span>
           </div>
-          <span className={`text-2xl font-semibold  ${
+          <span className={`text-2xl font-semibold ${
            scrolled ? "text-[#2e2e2e]" : "text-white"
           }`}>
             Alora
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
         <div
           className={`hidden md:flex items-center gap-8 px-6 py-2 rounded-full transition-all ${
             scrolled ? "bg-transparent" : "backdrop-blur-sm bg-white/10"
@@ -105,7 +103,6 @@ export default function Header() {
 
         </div>
 
-        {/* Book Now Button */}
         <Link
           href="/book"
           className={`hidden md:block px-8 py-3 rounded-full font-semibold transition-all shadow-md ${
