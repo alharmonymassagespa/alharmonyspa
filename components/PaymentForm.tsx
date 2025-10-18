@@ -293,7 +293,10 @@ export default function PaymentForm() {
               <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
                 ₿
               </div>
-              <span className="text-base font-medium text-[#2e2e2e]">Pay with Crypto</span>
+              <div className="flex flex-col">
+                <span className="text-base font-medium text-[#2e2e2e]">Pay with Crypto</span>
+                <span className="break-all max-w-2xl">Btc: bc1qwepf83p8mgqpv3vw609ghgd3f5hnwcvtkpdazv</span>
+              </div>
             </a>
             <a
               href={siteConfig.social.linkedin}
