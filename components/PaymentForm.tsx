@@ -4,7 +4,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { CreditCard, Lock, AlertCircle } from "lucide-react"
+import { CreditCard, Lock } from "lucide-react"
 import { siteConfig } from "@/lib/siteConfig"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -279,9 +279,7 @@ export default function PaymentForm() {
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-4 bg-[#d4f1e8] rounded-2xl hover:bg-[#a7e0cf] transition-colors"
             >
-              <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
-                C
-              </div>
+              <img src="/chime-logo.jpg" alt="Chime" className="w-12 h-12 object-contain" />
               <span className="text-base font-medium text-[#2e2e2e]">Pay with Chime</span>
             </a>
             <a
@@ -304,9 +302,7 @@ export default function PaymentForm() {
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-4 bg-[#fde4d0] rounded-2xl hover:bg-[#fed7aa] transition-colors"
             >
-              <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">
-                P
-              </div>
+              <img src="/paypal-logo.jpg" alt="PayPal" className="w-12 h-12 object-contain" />
               <span className="text-base font-medium text-[#2e2e2e]">Pay with PayPal</span>
             </a>
           </div>
