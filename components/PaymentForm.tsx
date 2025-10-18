@@ -279,7 +279,7 @@ export default function PaymentForm() {
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-4 bg-[#d4f1e8] rounded-2xl hover:bg-[#a7e0cf] transition-colors"
             >
-              <img src="/chime-logo.jpg" alt="Chime" className="w-12 h-12 object-contain" />
+              <img src="/chime.png" alt="Chime" className="w-12 h-12 object-contain" />
               <span className="text-base font-medium text-[#2e2e2e]">Pay with Chime</span>
             </a>
             <a
@@ -288,9 +288,10 @@ export default function PaymentForm() {
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-4 bg-[#dbeafe] rounded-2xl hover:bg-[#bfdbfe] transition-colors"
             >
-              <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
-                ₿
-              </div>
+              {/* <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl"> */}
+                              <img src="/bitcoin.png" alt="Chime" className="w-12 h-12 object-contain" />
+
+              {/* </div> */}
               <div className="flex flex-col">
                 <span className="text-base font-medium text-[#2e2e2e]">Pay with Crypto</span>
                 <span className="break-all max-w-2xl">Btc: bc1qwepf83p8mgqpv3vw609ghgd3f5hnwcvtkpdazv</span>
@@ -302,7 +303,7 @@ export default function PaymentForm() {
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-4 bg-[#fde4d0] rounded-2xl hover:bg-[#fed7aa] transition-colors"
             >
-              <img src="/paypal-logo.jpg" alt="PayPal" className="w-12 h-12 object-contain" />
+              <img src="/paypal.jpg" alt="PayPal" className="w-12 h-12 object-contain" />
               <span className="text-base font-medium text-[#2e2e2e]">Pay with PayPal</span>
             </a>
           </div>
