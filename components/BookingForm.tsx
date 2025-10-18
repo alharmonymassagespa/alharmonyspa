@@ -76,14 +76,14 @@ export default function BookingForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("[v0] Form submitted, validating...")
+    console.log("Form submitted, validating...")
 
     if (validateForm()) {
-      console.log("[v0] Validation passed, storing data and navigating...")
+      console.log("Validation passed, storing data and navigating...")
       sessionStorage.setItem("bookingData", JSON.stringify(formData))
       router.push("/payment")
     } else {
-      console.log("[v0] Validation failed:", errors)
+      console.log("Validation failed:", errors)
     }
   }
 
@@ -242,7 +242,7 @@ export default function BookingForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-[#0d9488] text-white py-5 rounded-2xl font-semibold text-lg hover:bg-[#0f766e] hover:scale-105 transition-all shadow-lg"
+          className="w-full bg-[#0d9488] text-white py-5 rounded-full font-semibold text-lg hover:bg-[#0f766e] hover:scale-105 transition-all shadow-lg"
         >
           Proceed to Payment
         </button>

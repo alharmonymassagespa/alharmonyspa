@@ -16,7 +16,10 @@ export default function Header() {
     const handleScroll = () => {
       const hero = document.getElementById("home")
       const heroBottom = hero ? hero.offsetHeight : 0
-      setScrolled(window.scrollY > heroBottom * 0.1)
+
+      // 👉 If on /book or /payment, treat as "scrolled" always
+      const shouldAlwaysShow = ["/book", "/payment"].includes(pathname)
+      setScrolled(shouldAlwaysShow || window.scrollY > heroBottom * 0.1)
     }
 
     window.addEventListener("scroll", handleScroll)
@@ -63,7 +66,6 @@ export default function Header() {
       <nav className="container mx-auto px-6 md:px-12 py-5 flex items-center justify-between max-w-7xl">
         <Link href="/" className="flex items-center gap-3">
           <img src="/alharmony-logo.png" alt="AlHarmony Logo" className="h-10 w-auto" />
-          {/* <span className={`text-2xl font-semibold ${scrolled ? "text-[#2e2e2e]" : "text-white"}`}>Alora</span> */}
         </Link>
 
         <div
@@ -96,14 +98,14 @@ export default function Header() {
           })}
         </div>
 
-        <Link
+        {pathname !== "/book" && <Link
           href="/book"
           className={`hidden md:block px-8 py-3 rounded-full font-semibold transition-all shadow-md ${
             pathname === "/book" ? "bg-white text-black" : "bg-[#2ba2ba] text-white hover:bg-[#0f766e] hover:scale-105"
           }`}
         >
           Book Now
-        </Link>
+        </Link>}
 
         {/* Mobile Menu Button */}
         <button
