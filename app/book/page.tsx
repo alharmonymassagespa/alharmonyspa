@@ -4,8 +4,8 @@ import BookingForm from "@/components/BookingForm"
 import Footer from "@/components/Footer"
 
 export const metadata: Metadata = {
-  title: "Book Your Massage - Alora",
-  description: "Schedule your perfect massage session with Alora. Choose your service, date, and time.",
+  title: "Book Your Massage - AlHarmony",
+  description: "Schedule your perfect massage session with AlHarmony. Choose your service, date, and time.",
 }
 
 function BookingContent() {

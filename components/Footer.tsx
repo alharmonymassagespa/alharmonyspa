@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Mail, Facebook, Instagram, Linkedin, Twitter, MessageCircle, UserRoundSearch, PhoneOutgoing   } from "lucide-react"
+import { Mail, Facebook, MessageCircle, UserRoundSearch, PhoneOutgoing } from "lucide-react"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -11,10 +11,8 @@ export default function Footer() {
           {/* Logo & Description */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">A</span>
-              </div>
-              <span className="text-xl font-bold">AlHarmony Massage & Spa</span>
+              <img src="/alharmony-logo.png" alt="AlHarmony Logo" className="h-8 w-auto" />
+              {/* <span className="text-xl font-bold">AlHarmony Massage & Spa</span> */}
             </div>
             <p className="text-gray-800 text-sm leading-relaxed">
               Experience professional massage and spa services designed to rejuvenate your body and mind.
@@ -48,7 +46,7 @@ export default function Footer() {
                 href="https://wa.me/15735513015"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-wh ite/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
+                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
                 aria-label="WhatsApp"
               >
                 <MessageCircle size={20} />
@@ -78,7 +76,7 @@ export default function Footer() {
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
                 aria-label="Snapchat"
               >
-                <UserRoundSearch  size={20} />
+                <UserRoundSearch size={20} />
               </a>
               <a
                 href="tel:+17864691529"
@@ -87,7 +85,7 @@ export default function Footer() {
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
                 aria-label="Twitter"
               >
-                <PhoneOutgoing  size={20} />
+                <PhoneOutgoing size={20} />
               </a>
             </div>
           </div>

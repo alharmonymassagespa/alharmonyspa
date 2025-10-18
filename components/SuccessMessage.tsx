@@ -81,7 +81,7 @@ export default function SuccessMessage() {
           transition={{ delay: 0.4 }}
           className="text-lg text-muted-foreground mb-8 leading-relaxed"
         >
-          Thank you for choosing Alora. We'll confirm your appointment shortly via phone or email. Get ready to
+          Thank you for choosing AlHarmony. We'll confirm your appointment shortly via phone or email. Get ready to
           experience ultimate relaxation!
         </motion.p>
 

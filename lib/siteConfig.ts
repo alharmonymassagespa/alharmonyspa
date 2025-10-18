@@ -85,7 +85,7 @@ export const siteConfig = {
   testimonials: [
     {
       name: "Sarah Johnson",
-      text: "Booking my massage through Alora was effortless! The therapist was professional, and I felt completely rejuvenated afterward.",
+      text: "Booking my massage through AlHarmony was effortless! The therapist was professional, and I felt completely rejuvenated afterward.",
       rating: 5,
     },
     {

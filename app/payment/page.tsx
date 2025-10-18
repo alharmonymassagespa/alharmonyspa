@@ -3,7 +3,7 @@ import PaymentForm from "@/components/PaymentForm"
 import Footer from "@/components/Footer"
 
 export const metadata: Metadata = {
-  title: "Secure Payment - Alora",
+  title: "Secure Payment - AlHarmony",
   description: "Complete your booking with secure payment options.",
 }
 

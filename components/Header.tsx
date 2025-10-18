@@ -35,7 +35,7 @@ export default function Header() {
           }
         })
       },
-      { rootMargin: "-50% 0px -50% 0px" } // triggers when section is centered
+      { rootMargin: "-50% 0px -50% 0px" }, // triggers when section is centered
     )
 
     sections.forEach((sec) => observer.observe(sec))
@@ -53,7 +53,7 @@ export default function Header() {
     { id: "services", href: "#services", label: "Services" },
     { id: "testimonials", href: "#testimonials", label: "Testimonials" },
   ]
-  
+
   return (
     <header
       className={`fixed w-full top-0 z-50 transition-all duration-300 mb-20 ${
@@ -62,14 +62,8 @@ export default function Header() {
     >
       <nav className="container mx-auto px-6 md:px-12 py-5 flex items-center justify-between max-w-7xl">
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#2ba2ba] rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold text-xl">A</span>
-          </div>
-          <span className={`text-2xl font-semibold ${
-           scrolled ? "text-[#2e2e2e]" : "text-white"
-          }`}>
-            Alora
-          </span>
+          <img src="/alharmony-logo.png" alt="AlHarmony Logo" className="h-10 w-auto" />
+          {/* <span className={`text-2xl font-semibold ${scrolled ? "text-[#2e2e2e]" : "text-white"}`}>Alora</span> */}
         </Link>
 
         <div
@@ -78,37 +72,34 @@ export default function Header() {
           }`}
         >
           {navLinks.map((link) => {
-            const isLinkActive = isActive(link.id);
+            const isLinkActive = isActive(link.id)
 
             // Determine text + background styles
-            let linkClasses = "font-medium text-lg px-4 py-2 rounded-full transition-all duration-300 ";
+            let linkClasses = "font-medium text-lg px-4 py-2 rounded-full transition-all duration-300 "
 
             if (isLinkActive) {
               // Case 1: Active link
-              linkClasses += "bg-white text-black shadow-sm";
+              linkClasses += "bg-white text-black shadow-sm"
             } else if (scrolled) {
               // Case 2: Not active, but page has scrolled
-              linkClasses += "text-black hover:bg-white hover:text-[#0d9488]";
+              linkClasses += "text-black hover:bg-white hover:text-[#0d9488]"
             } else {
               // Case 3: Not active, and still at top (hero section)
-              linkClasses += "text-white hover:bg-white hover:text-[#0d9488]";
+              linkClasses += "text-white hover:bg-white hover:text-[#0d9488]"
             }
 
             return (
               <a key={link.id} href={link.href} className={linkClasses}>
                 {link.label}
               </a>
-            );
+            )
           })}
-
         </div>
 
         <Link
           href="/book"
           className={`hidden md:block px-8 py-3 rounded-full font-semibold transition-all shadow-md ${
-            pathname === "/book"
-              ? "bg-white text-black"
-              : "bg-[#2ba2ba] text-white hover:bg-[#0f766e] hover:scale-105"
+            pathname === "/book" ? "bg-white text-black" : "bg-[#2ba2ba] text-white hover:bg-[#0f766e] hover:scale-105"
           }`}
         >
           Book Now
@@ -133,9 +124,7 @@ export default function Header() {
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
                   className={`text-lg font-medium py-3 text-center rounded-full transition-colors ${
-                    isActive(link.id)
-                      ? "bg-[#0d9488] text-white"
-                      : "text-[#2e2e2e] hover:bg-[#0d9488] hover:text-white"
+                    isActive(link.id) ? "bg-[#0d9488] text-white" : "text-[#2e2e2e] hover:bg-[#0d9488] hover:text-white"
                   }`}
                 >
                   {link.label}

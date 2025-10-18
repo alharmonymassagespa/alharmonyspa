@@ -3,7 +3,7 @@ import SuccessMessage from "@/components/SuccessMessage"
 import Footer from "@/components/Footer"
 
 export const metadata: Metadata = {
-  title: "Booking Confirmed - Alora",
+  title: "Booking Confirmed - AlHarmony",
   description: "Your massage booking has been confirmed. We look forward to seeing you!",
 }
 

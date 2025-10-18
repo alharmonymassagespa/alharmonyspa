@@ -31,7 +31,7 @@ export default function TestimonialsSection() {
             Hear From Our <span className="font-semibold">Happy Clients and Therapists</span>
           </h2>
           <p className="text-lg text-[#6b7280] max-w-3xl leading-relaxed">
-            Real experiences from people who have discovered the Alora difference.
+            Real experiences from people who have discovered the AlHarmony difference.
           </p>
         </motion.div>
 

@@ -11,18 +11,18 @@ const manrope = Manrope({
 })
 
 export const metadata: Metadata = {
-  title: "Alora - Professional Massage & Spa Booking",
+  title: "AlHarmony - Professional Massage & Spa Booking",
   description:
     "Discover soothing treatments and personalized relaxation experiences. Book your perfect massage anytime, anywhere.",
   openGraph: {
-    title: "Alora - Professional Massage & Spa Booking",
+    title: "AlHarmony - Professional Massage & Spa Booking",
     description:
       "Discover soothing treatments and personalized relaxation experiences. Book your perfect massage anytime, anywhere.",
     url: "https://massage-spa-alora.vercel.app",
-    siteName: "Alora",
+    siteName: "AlHarmony",
     images: [
       {
-        url: "/alora-seo-image.webp",
+        url: "/alharmony-seo-image.webp",
         width: 1200,
         height: 630,
         alt: "Alora Spa & Massage",
@@ -33,11 +33,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alora - Professional Massage & Spa Booking",
+    title: "AlHarmony - Professional Massage & Spa Booking",
     description:
       "Discover soothing treatments and personalized relaxation experiences. Book your perfect massage anytime, anywhere.",
     images: [
-      "/alora-seo-image.webp",
+      "/alharmony-seo-image.webp",
     ],   
   },
     generator: 'v0.app'
@@ -57,7 +57,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "LocalBusiness",
-              name: "Alora Spa & Massage",
+              name: "AlHarmony Spa & Massage",
               description: "Professional massage and spa services",
               address: {
                 "@type": "PostalAddress",
