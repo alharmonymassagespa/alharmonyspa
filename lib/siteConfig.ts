@@ -18,7 +18,7 @@ export const siteConfig = {
       description: "A therapeutic massage that targets deeper layers of muscle and connective tissue to relieve pain, stiffness and inflammation.",
       duration: "90 min",
       price: 150,
-      image: "/deep-tissue-massage-therapy-professional.jpg",
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.explicit.bing.net%2Fth%2Fid%2FOIP.EOVpQEsKectQWaxudsoaoAHaEL%3Fcb%3D12%26pid%3DApi&f=1&ipt=e9f0f38469174786425100c0229c65bc4f99a1b190e99fc964ec5f8e50fce40b&ipo=images",
     },
     {
       id: "hot-stone",
@@ -27,7 +27,7 @@ export const siteConfig = {
         "Smooth, heated stones are placed on key points to warm and loosen tight muscles and balance energy.",
       duration: "90 min",
       price: 150,
-      image: "/hot-stone-massage-spa-relaxation.jpg",
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.9NFdMRJ3-m2a2RS9RldpGAHaHa%3Fcb%3D12%26pid%3DApi&f=1&ipt=3f7ac22209c5f57fea1ccedcbf137f39b837f3b85873d74a1d20043815d55c5c&ipo=images",
     },
     {
       id: "sports-massage",
@@ -45,7 +45,7 @@ export const siteConfig = {
         "This massage uses a smooth, seaweed-based gel that allows for fluid, full-body contact, creating an intimate and deeply relaxing experience.",
       duration: "90 min",
       price: 180,
-      image: "/aromatherapy-massage-essential-oils-spa.jpg",
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.32sTwPc-7Pe2Hgqs-kLUjgHaC5%3Fcb%3D12%26pid%3DApi%26ucfimg%3D1&f=1&ipt=51cba1618cbd6b6a1f872f395b023bd3d9ba79fc655b14829ec4e6f71d47b9cb&ipo=images",
     },
     /* {
       id: "aromatherapy",
@@ -62,7 +62,7 @@ export const siteConfig = {
       description: "Kindly check in with Makiah.Rana022@gmail.com or +1 (573) 551-3015 for any inquiries.",
       duration: "90 min",
       price: 150,
-      image: "/aromatherapy-massage-essential-oils-spa.jpg",
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.explicit.bing.net%2Fth%2Fid%2FOIP.M3WRiAV75sPnFk3GaUqVuQHaE8%3Fcb%3D12%26pid%3DApi&f=1&ipt=7eacf634522c4a537cfe878bdf5ccae4e4edd07bc1c2835f723f19e1647933dd&ipo=images",
     },
     {
       id: "lingam",
@@ -70,7 +70,7 @@ export const siteConfig = {
       description: "Kindly check in with Makiah.Rana022@gmail.com or +1 (573) 551-3015 for any inquiries.",
       duration: "90 min",
       price: 200,
-      image: "/aromatherapy-massage-essential-oils-spa.jpg",
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.lg7i8_AiqGmRE_z_09s4kgHaEL%3Fcb%3D12%26pid%3DApi&f=1&ipt=48765827f42f47d28269bc4f560b5c886d5917883ba583d58f5ee2210b87655e&ipo=images",
     },
     {
       id: "erotica",
@@ -78,7 +78,7 @@ export const siteConfig = {
       description: "Kindly check in with Makiah.Rana022@gmail.com or +1 (573) 551-3015 for any inquiries.",
       duration: "90 min",
       price: 200,
-      image: "/aromatherapy-massage-essential-oils-spa.jpg",
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.explicit.bing.net%2Fth%2Fid%2FOIP.3mV72PNPtqnqgjbE_ZB9ZQHaEK%3Fcb%3D12%26pid%3DApi&f=1&ipt=a93ee28d257a87df83492782ff0dd8cf92ded16d28bcfcaffb7aa5d76444022e&ipo=images",
     },
   ],
 
