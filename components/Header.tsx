@@ -56,7 +56,6 @@ export default function Header() {
     { id: "services", href: "#services", label: "Services" },
     { id: "testimonials", href: "#testimonials", label: "Testimonials" },
   ]
-
   return (
     <header
       className={`fixed w-full top-0 z-50 transition-all duration-300 mb-20 ${
