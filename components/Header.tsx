@@ -18,7 +18,7 @@ export default function Header() {
       const heroBottom = hero ? hero.offsetHeight : 0
 
       // 👉 If on /book or /payment, treat as "scrolled" always
-      const shouldAlwaysShow = ["/book", "/payment"].includes(pathname)
+      const shouldAlwaysShow = ["/book", "/payment", "/success"].includes(pathname)
       setScrolled(shouldAlwaysShow || window.scrollY > heroBottom * 0.1)
     }
 
