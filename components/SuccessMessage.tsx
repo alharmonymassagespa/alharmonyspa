@@ -48,7 +48,7 @@ export default function SuccessMessage() {
   if (!mounted) return null
 
   return (
-    <div className="container mx-auto px-4 py-20">
+    <div className="container mx-auto px-4 py-30">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -81,7 +81,7 @@ export default function SuccessMessage() {
           transition={{ delay: 0.4 }}
           className="text-lg text-muted-foreground mb-8 leading-relaxed"
         >
-          Thank you for choosing Alora. We'll confirm your appointment shortly via phone or email. Get ready to
+          Thank you for choosing AlHarmony. We'll confirm your appointment shortly via phone or email. Get ready to
           experience ultimate relaxation!
         </motion.p>
 

@@ -3,14 +3,14 @@ import PaymentForm from "@/components/PaymentForm"
 import Footer from "@/components/Footer"
 
 export const metadata: Metadata = {
-  title: "Secure Payment - Alora",
+  title: "Secure Payment - AlHarmony",
   description: "Complete your booking with secure payment options.",
 }
 
 export default function PaymentPage() {
   return (
     <main className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-30">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">Secure Your Booking</h1>

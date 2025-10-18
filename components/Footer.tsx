@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin, Twitter, MessageCircle } from "lucide-react"
+import { Mail, Facebook, MessageCircle, UserRoundSearch, PhoneOutgoing } from "lucide-react"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -11,10 +11,8 @@ export default function Footer() {
           {/* Logo & Description */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">A</span>
-              </div>
-              <span className="text-xl font-bold">Alora</span>
+              <img src="/alharmony-logo.png" alt="AlHarmony Logo" className="h-8 w-auto" />
+              {/* <span className="text-xl font-bold">AlHarmony Massage & Spa</span> */}
             </div>
             <p className="text-gray-800 text-sm leading-relaxed">
               Experience professional massage and spa services designed to rejuvenate your body and mind.
@@ -45,49 +43,49 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-4">Connect With Us</h3>
             <div className="flex gap-4">
               <a
-                href="https://wa.me/1234567890"
+                href="https://wa.me/17864691529"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-wh ite/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80"
+                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
                 aria-label="WhatsApp"
               >
                 <MessageCircle size={20} />
               </a>
               <a
-                href="https://facebook.com"
+                href="https://facebook.com/share/168qzu82YK"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80"
+                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
                 aria-label="Facebook"
               >
                 <Facebook size={20} />
               </a>
               <a
-                href="https://instagram.com"
+                href="mailto:Makiah.Rana022@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80"
-                aria-label="Instagram"
+                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
+                aria-label="Email"
               >
-                <Instagram size={20} />
+                <Mail size={20} />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.snapchat.com/add/handlememass"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80"
-                aria-label="LinkedIn"
+                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
+                aria-label="Snapchat"
               >
-                <Linkedin size={20} />
+                <UserRoundSearch size={20} />
               </a>
               <a
-                href="https://twitter.com"
+                href="tel:+17864691529"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80"
+                className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
                 aria-label="Twitter"
               >
-                <Twitter size={20} />
+                <PhoneOutgoing size={20} />
               </a>
             </div>
           </div>
@@ -95,7 +93,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-white/10 pt-6 text-center">
-          <p className="text-gray-400 text-sm">© {currentYear} Alora Spa. All rights reserved.</p>
+          <p className="text-gray-400 text-sm">© {currentYear} AlHarmony Massage & Spa. All rights reserved.</p>
         </div>
       </div>
     </footer>

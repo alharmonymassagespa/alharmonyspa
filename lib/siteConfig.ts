@@ -18,7 +18,7 @@ export const siteConfig = {
       description: "A therapeutic massage that targets deeper layers of muscle and connective tissue to relieve pain, stiffness and inflammation.",
       duration: "90 min",
       price: 150,
-      image: "/deep-tissue-massage-therapy-professional.jpg",
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.explicit.bing.net%2Fth%2Fid%2FOIP.EOVpQEsKectQWaxudsoaoAHaEL%3Fcb%3D12%26pid%3DApi&f=1&ipt=e9f0f38469174786425100c0229c65bc4f99a1b190e99fc964ec5f8e50fce40b&ipo=images",
     },
     {
       id: "hot-stone",
@@ -27,7 +27,7 @@ export const siteConfig = {
         "Smooth, heated stones are placed on key points to warm and loosen tight muscles and balance energy.",
       duration: "90 min",
       price: 150,
-      image: "/hot-stone-massage-spa-relaxation.jpg",
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.9NFdMRJ3-m2a2RS9RldpGAHaHa%3Fcb%3D12%26pid%3DApi&f=1&ipt=3f7ac22209c5f57fea1ccedcbf137f39b837f3b85873d74a1d20043815d55c5c&ipo=images",
     },
     {
       id: "sports-massage",
@@ -42,12 +42,12 @@ export const siteConfig = {
       id: "nuru",
       name: "Nuru Massage",
       description:
-        "Known for using a special, slippery gel made from seaweed, which makes the massage really smooth and sensual. The idea is to have full body contact, and it's often done with both the masseuse and the person being massaged naked and using the gel. It's super relaxing and intimate.",
+        "This massage uses a smooth, seaweed-based gel that allows for fluid, full-body contact, creating an intimate and deeply relaxing experience.",
       duration: "90 min",
-      price: 150,
-      image: "/aromatherapy-massage-essential-oils-spa.jpg",
+      price: 180,
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.32sTwPc-7Pe2Hgqs-kLUjgHaC5%3Fcb%3D12%26pid%3DApi%26ucfimg%3D1&f=1&ipt=51cba1618cbd6b6a1f872f395b023bd3d9ba79fc655b14829ec4e6f71d47b9cb&ipo=images",
     },
-    {
+    /* {
       id: "aromatherapy",
       name: "Aromatherapy Massage",
       description:
@@ -55,40 +55,37 @@ export const siteConfig = {
       duration: "90 min",
       price: 150,
       image: "/aromatherapy-massage-essential-oils-spa.jpg",
-    },
+    }, */
     {
-      id: "aromatherapy",
-      name: "Aromatherapy Massage",
-      description:
-        "Combines gentle massage with essential oils to enhance relaxation and promote emotional well-being.",
+      id: "cupping",
+      name: "Cupping Massage",
+      description: "Kindly check in with Makiah.Rana022@gmail.com or +1 (573) 551-3015 for any inquiries.",
       duration: "90 min",
       price: 150,
-      image: "/aromatherapy-massage-essential-oils-spa.jpg",
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.explicit.bing.net%2Fth%2Fid%2FOIP.M3WRiAV75sPnFk3GaUqVuQHaE8%3Fcb%3D12%26pid%3DApi&f=1&ipt=7eacf634522c4a537cfe878bdf5ccae4e4edd07bc1c2835f723f19e1647933dd&ipo=images",
     },
     {
       id: "lingam",
       name: "Lingam Massage",
-      description:
-        "Combines gentle massage with essential oils to enhance relaxation and promote emotional well-being.",
-      duration: 90 min",
-      price: 150,
-      image: "/aromatherapy-massage-essential-oils-spa.jpg",
+      description: "Kindly check in with Makiah.Rana022@gmail.com or +1 (573) 551-3015 for any inquiries.",
+      duration: "90 min",
+      price: 200,
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.lg7i8_AiqGmRE_z_09s4kgHaEL%3Fcb%3D12%26pid%3DApi&f=1&ipt=48765827f42f47d28269bc4f560b5c886d5917883ba583d58f5ee2210b87655e&ipo=images",
     },
     {
       id: "erotica",
       name: "Erotica Massage",
-      description:
-        "Combines gentle massage with essential oils to enhance relaxation and promote emotional well-being.",
+      description: "Kindly check in with Makiah.Rana022@gmail.com or +1 (573) 551-3015 for any inquiries.",
       duration: "90 min",
-      price: 150,
-      image: "/aromatherapy-massage-essential-oils-spa.jpg",
+      price: 200,
+      image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.explicit.bing.net%2Fth%2Fid%2FOIP.3mV72PNPtqnqgjbE_ZB9ZQHaEK%3Fcb%3D12%26pid%3DApi&f=1&ipt=a93ee28d257a87df83492782ff0dd8cf92ded16d28bcfcaffb7aa5d76444022e&ipo=images",
     },
   ],
 
   testimonials: [
     {
       name: "Sarah Johnson",
-      text: "Booking my massage through Alora was effortless! The therapist was professional, and I felt completely rejuvenated afterward.",
+      text: "Booking my massage through AlHarmony was effortless! The therapist was professional, and I felt completely rejuvenated afterward.",
       rating: 5,
     },
     {
@@ -104,10 +101,9 @@ export const siteConfig = {
   ],
 
   social: {
-    whatsapp: "https://wa.me/1234567890",
-    facebook: "https://facebook.com/alora-spa",
-    instagram: "https://instagram.com/alora-spa",
-    linkedin: "https://linkedin.com/company/alora-spa",
-    twitter: "https://twitter.com/alora-spa",
+    whatsapp: "https://wa.me/17864691529",
+    facebook: "https://facebook.com/share/168qzu82YK",
+    snapchat: "https://www.snapchat.com/add/handlememass",
+    email: "mailto:Makiah.Rana022@gmail.com", 
   },
 }
