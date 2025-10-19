@@ -1,4 +1,4 @@
-# Alora - Professional Massage & Spa Booking
+# AlHarmony - Professional Massage & Spa Booking
 
 A modern, responsive web application for booking massage and spa services. Built with Next.js 15, TypeScript, and Tailwind CSS.
 
