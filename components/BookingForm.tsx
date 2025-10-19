@@ -50,6 +50,7 @@ export default function BookingForm() {
     name: "",
     phone: "",
     notes: "",
+    locationType: "incall",
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -166,6 +167,34 @@ export default function BookingForm() {
             </SelectContent>
           </Select>
           {errors.time && <p className="text-sm text-red-500">{errors.time}</p>}
+        </div>
+
+        <div className="space-y-2">
+          <Label className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg">
+            Location Type
+          </Label>
+          <div className="flex gap-6">
+            <label className="flex items-center gap-2">
+              <Input
+                type="radio"
+                name="locationType"
+                value="incall"
+                checked={formData.locationType === "incall"}
+                onChange={() => setFormData({ ...formData, locationType: "incall" })}
+              />
+              Incall
+            </label>
+            <label className="flex items-center gap-2">
+              <Input
+                type="radio"
+                name="locationType"
+                value="outcall"
+                checked={formData.locationType === "outcall"}
+                onChange={() => setFormData({ ...formData, locationType: "outcall" })}
+              />
+               Outcall
+            </label>
+          </div>
         </div>
 
         {/* Name Input */}

