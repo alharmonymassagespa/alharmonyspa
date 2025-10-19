@@ -1,7 +1,7 @@
 export const siteConfig = {
-  name: "Alora",
+  name: "AlHarmony",
   description: "Professional Massage & Spa Booking",
-  url: "https://alora-spa.com",
+  url: "https://alharmonyspa.vercel.app",
 
   services: [
     {
@@ -105,5 +105,7 @@ export const siteConfig = {
     facebook: "https://facebook.com/share/168qzu82YK",
     snapchat: "https://www.snapchat.com/add/handlememass",
     email: "mailto:Makiah.Rana022@gmail.com", 
+    mail: "Makiah.Rana022@gmail.com",
+    phone: "+17864691529",
   },
 }
