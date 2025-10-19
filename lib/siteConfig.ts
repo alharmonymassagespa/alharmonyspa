@@ -59,7 +59,7 @@ export const siteConfig = {
     {
       id: "cupping",
       name: "Cupping Massage",
-      description: "Kindly check in with Makiah.Rana022@gmail.com or +1 (573) 551-3015 for any inquiries.",
+      description: "Kindly check in with alharmonymassagespa@gmail.com or +17864691529 for any inquiries.",
       duration: "90 min",
       price: 150,
       image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.explicit.bing.net%2Fth%2Fid%2FOIP.M3WRiAV75sPnFk3GaUqVuQHaE8%3Fcb%3D12%26pid%3DApi&f=1&ipt=7eacf634522c4a537cfe878bdf5ccae4e4edd07bc1c2835f723f19e1647933dd&ipo=images",
@@ -67,7 +67,7 @@ export const siteConfig = {
     {
       id: "lingam",
       name: "Lingam Massage",
-      description: "Kindly check in with Makiah.Rana022@gmail.com or +1 (573) 551-3015 for any inquiries.",
+      description: "Kindly check in with alharmonymassagespa@gmail.com or +17864691529 for any inquiries.",
       duration: "90 min",
       price: 200,
       image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.lg7i8_AiqGmRE_z_09s4kgHaEL%3Fcb%3D12%26pid%3DApi&f=1&ipt=48765827f42f47d28269bc4f560b5c886d5917883ba583d58f5ee2210b87655e&ipo=images",
@@ -75,7 +75,7 @@ export const siteConfig = {
     {
       id: "erotica",
       name: "Erotica Massage",
-      description: "Kindly check in with Makiah.Rana022@gmail.com or +1 (573) 551-3015 for any inquiries.",
+      description: "Kindly check in with alharmonymassagespa@gmail.com or +17864691529 for any inquiries.",
       duration: "90 min",
       price: 200,
       image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.explicit.bing.net%2Fth%2Fid%2FOIP.3mV72PNPtqnqgjbE_ZB9ZQHaEK%3Fcb%3D12%26pid%3DApi&f=1&ipt=a93ee28d257a87df83492782ff0dd8cf92ded16d28bcfcaffb7aa5d76444022e&ipo=images",
