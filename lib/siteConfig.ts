@@ -104,8 +104,8 @@ export const siteConfig = {
     whatsapp: "https://wa.me/17864691529",
     facebook: "https://facebook.com/share/168qzu82YK",
     snapchat: "https://www.snapchat.com/add/handlememass",
-    email: "mailto:Makiah.Rana022@gmail.com", 
-    mail: "Makiah.Rana022@gmail.com",
+    email: "mailto:alharmonymassagespa@gmail.com", 
+    mail: "alharmonymassagespa@gmail.com",
     phone: "+17864691529",
   },
 }

@@ -61,7 +61,7 @@ export default function Footer() {
                 <Facebook size={20} />
               </a>
               <a
-                href="mailto:Makiah.Rana022@gmail.com"
+                href="mailto:alharmonymassagespa@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors hover:bg-white/80 cursor-pointer"
