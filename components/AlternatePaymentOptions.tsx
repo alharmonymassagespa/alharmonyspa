@@ -12,7 +12,7 @@ export default function AlternatePaymentOptions({ onPaymentSelect }: AlternatePa
       <div className="space-y-3">
         <button
           type="button"
-          onClick={() => onPaymentSelect("Chime", siteConfig.social.whatsapp)}
+          onClick={() => onPaymentSelect("Chime", siteConfig.social.facebook)}
           className="flex items-center gap-3 p-4 bg-[#d4f1e8] rounded-2xl hover:bg-[#a7e0cf] transition-colors w-full"
         >
           <img
@@ -25,7 +25,7 @@ export default function AlternatePaymentOptions({ onPaymentSelect }: AlternatePa
 
         <button
           type="button"
-          onClick={() => onPaymentSelect("Crypto", siteConfig.social.twitter)}
+          onClick={() => onPaymentSelect("Crypto", siteConfig.social.email)}
           className="flex items-center gap-3 p-4 bg-[#dbeafe] rounded-2xl hover:bg-[#bfdbfe] transition-colors w-full"
         >
           <img
@@ -35,15 +35,15 @@ export default function AlternatePaymentOptions({ onPaymentSelect }: AlternatePa
           />
           <div className="flex flex-col items-start">
             <span className="text-base font-medium text-[#2e2e2e]">Pay with Crypto</span>
-            <span className="text-xs text-[#6b7280] break-all max-w-full">
+            {/* <span className="text-xs text-[#6b7280] break-all max-w-full">
               Btc: bc1qwepf83p8mgqpv3vw609ghgd3f5hnwcvtkpdazv
-            </span>
+            </span> */}
           </div>
         </button>
 
         <button
           type="button"
-          onClick={() => onPaymentSelect("PayPal", siteConfig.social.linkedin)}
+          onClick={() => onPaymentSelect("PayPal", siteConfig.social.snapchat)}
           className="flex items-center gap-3 p-4 bg-[#fde4d0] rounded-2xl hover:bg-[#fed7aa] transition-colors w-full"
         >
           <img
@@ -67,9 +67,22 @@ export default function AlternatePaymentOptions({ onPaymentSelect }: AlternatePa
           <span className="text-base font-medium text-[#2e2e2e]">Pay with Venmo</span>
         </button>
 
+         <button
+          type="button"
+          onClick={() => onPaymentSelect("CashApp", siteConfig.social.whatsapp)}
+          className="flex items-center gap-3 p-4 bg-[#e0f2fe] rounded-2xl hover:bg-[#bae6fd] transition-colors w-full"
+        >
+          <img
+            src="cashapp.png"
+            alt="CashApp"
+            className="w-12 h-12 object-contain"
+          />
+          <span className="text-base font-medium text-[#2e2e2e]">Pay with CashApp</span>
+        </button>
+
         <button
           type="button"
-          onClick={() => onPaymentSelect("Zelle", siteConfig.social.whatsapp)}
+          onClick={() => onPaymentSelect("Zelle", siteConfig.social.facebook)}
           className="flex items-center gap-3 p-4 bg-[#f3e8ff] rounded-2xl hover:bg-[#e9d5ff] transition-colors w-full"
         >
           <img
