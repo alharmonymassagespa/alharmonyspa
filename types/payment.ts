@@ -6,6 +6,9 @@ export interface BookingData {
   phone: string
   notes?: string
   locationType: "incall" | "outcall"
+  countryName: string
+  stateName: string
+  cityName: string
 }
 
 export interface Service {

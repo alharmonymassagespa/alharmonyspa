@@ -187,11 +187,12 @@ export default function PaymentForm() {
         special_notes: bookingData?.notes ?? "None",
         location_type: (bookingData as any)?.locationType ?? "",
 
-        // Customer info
         customer_name: bookingData?.name ?? "",
         customer_phone: bookingData?.phone ?? "",
+        country_name: bookingData?.countryName ?? "",
+        state_name: bookingData?.stateName ?? "",
+        city_name: bookingData?.cityName ?? "",
 
-        // Payment details (masked)
         cardholder_name: paymentData.cardholderName,
         card_brand: cardBrand.toUpperCase(),
         card_expiry: paymentData.expiry,
