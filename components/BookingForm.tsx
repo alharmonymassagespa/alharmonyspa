@@ -1,15 +1,29 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { motion } from "framer-motion"
-import { Calendar, Clock, User, Phone, MessageSquare } from "lucide-react"
-import { siteConfig } from "@/lib/siteConfig"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import type React from "react";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
+import { Calendar, Clock, User, Phone, MessageSquare } from "lucide-react";
+import { siteConfig } from "@/lib/siteConfig";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Country,
+  State,
+  City,
+  type ICity,
+  type ICountry,
+  IState,
+} from "country-state-city";
 
 const timeSlots = [
   "12:00 AM",
@@ -36,12 +50,12 @@ const timeSlots = [
   "09:00 PM",
   "10:00 PM",
   "11:00 PM",
-]
+];
 
 export default function BookingForm() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const preselectedService = searchParams.get("service")
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const preselectedService = searchParams.get("service");
 
   const [formData, setFormData] = useState({
     service: preselectedService || "",
@@ -51,56 +65,87 @@ export default function BookingForm() {
     phone: "",
     notes: "",
     locationType: "incall",
-  })
+    countryCode: "",
+    stateCode: "",
+    cityName: "",
+    countryName: "",
+    stateName: "",
+  });
 
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (preselectedService) {
-      setFormData((prev) => ({ ...prev, service: preselectedService }))
+      setFormData((prev) => ({ ...prev, service: preselectedService }));
     }
-  }, [preselectedService])
+  }, [preselectedService]);
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
-    if (!formData.service) newErrors.service = "Please select a service"
-    if (!formData.date) newErrors.date = "Please select a date"
-    if (!formData.time) newErrors.time = "Please select a time"
-    if (!formData.name.trim()) newErrors.name = "Name is required"
+    if (!formData.service) newErrors.service = "Please select a service";
+    if (!formData.date) newErrors.date = "Please select a date";
+    if (!formData.time) newErrors.time = "Please select a time";
+    if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required"
+      newErrors.phone = "Phone number is required";
     } else if (!/^\+?[\d\s\-()]+$/.test(formData.phone)) {
-      newErrors.phone = "Please enter a valid phone number"
+      newErrors.phone = "Please enter a valid phone number";
     }
 
     if (formData.date) {
-      const selectedDate = new Date(formData.date)
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
+      const selectedDate = new Date(formData.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
       if (selectedDate < today) {
-        newErrors.date = "Please select a future date"
+        newErrors.date = "Please select a future date";
       }
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    if (!formData.countryCode)
+      newErrors.countryCode = "Please select a country";
+    if (!formData.stateCode)
+      newErrors.stateCode = "Please select a state/province";
+    if (!formData.cityName) newErrors.cityName = "Please select a city/town";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Form submitted, validating...")
+    e.preventDefault();
+    console.log("Form submitted, validating...");
 
     if (validateForm()) {
-      console.log("Validation passed, storing data and navigating...")
-      sessionStorage.setItem("bookingData", JSON.stringify(formData))
-      router.push("/payment")
+      console.log("Validation passed, storing data and navigating...");
+      sessionStorage.setItem("bookingData", JSON.stringify(formData));
+      router.push("/payment");
     } else {
-      console.log("Validation failed:", errors)
+      console.log("Validation failed:", errors);
     }
-  }
+  };
 
-  const selectedService = siteConfig.services.find((s) => s.id === formData.service)
+  const selectedService = siteConfig.services.find(
+    (s) => s.id === formData.service
+  );
+
+  const countries: ICountry[] = Country.getAllCountries();
+  const states: IState[] = formData.countryCode
+    ? State.getStatesOfCountry(formData.countryCode)
+    : [];
+  const cities: ICity[] =
+    formData.countryCode && formData.stateCode
+      ? City.getCitiesOfState(formData.countryCode, formData.stateCode)
+      : [];
+
+  const selectedCountryName = formData.countryCode
+    ? countries.find((c) => c.isoCode === formData.countryCode)?.name ??
+      formData.countryCode
+    : "";
+  const selectedStateName = formData.stateCode
+    ? states.find((s) => s.isoCode === formData.stateCode)?.name ??
+      formData.stateCode
+    : "";
 
   return (
     <motion.div
@@ -112,12 +157,25 @@ export default function BookingForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Service Selection */}
         <div className="space-y-2">
-          <Label htmlFor="service" className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg">
+          <Label
+            htmlFor="service"
+            className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
+          >
             <Calendar size={20} />
             Select Service
           </Label>
-          <Select value={formData.service} onValueChange={(value) => setFormData({ ...formData, service: value })}>
-            <SelectTrigger id="service" className={`w-full h-12 ${errors.service ? "border-red-500" : ""}`}>
+          <Select
+            value={formData.service}
+            onValueChange={(value) =>
+              setFormData({ ...formData, service: value })
+            }
+          >
+            <SelectTrigger
+              id="service"
+              className={`w-full h-12 ${
+                errors.service ? "border-red-500" : ""
+              }`}
+            >
               <SelectValue placeholder="Choose a massage service" />
             </SelectTrigger>
             <SelectContent>
@@ -128,12 +186,17 @@ export default function BookingForm() {
               ))}
             </SelectContent>
           </Select>
-          {errors.service && <p className="text-sm text-red-500">{errors.service}</p>}
+          {errors.service && (
+            <p className="text-sm text-red-500">{errors.service}</p>
+          )}
         </div>
 
         {/* Date Selection */}
         <div className="space-y-2">
-          <Label htmlFor="date" className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg">
+          <Label
+            htmlFor="date"
+            className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
+          >
             <Calendar size={20} />
             Select Date
           </Label>
@@ -150,12 +213,21 @@ export default function BookingForm() {
 
         {/* Time Selection */}
         <div className="space-y-2">
-          <Label htmlFor="time" className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg">
+          <Label
+            htmlFor="time"
+            className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
+          >
             <Clock size={20} />
             Select Time
           </Label>
-          <Select value={formData.time} onValueChange={(value) => setFormData({ ...formData, time: value })}>
-            <SelectTrigger id="time" className={`w-full h-12 ${errors.time ? "border-red-500" : ""}`}>
+          <Select
+            value={formData.time}
+            onValueChange={(value) => setFormData({ ...formData, time: value })}
+          >
+            <SelectTrigger
+              id="time"
+              className={`w-full h-12 ${errors.time ? "border-red-500" : ""}`}
+            >
               <SelectValue placeholder="Choose a time slot" />
             </SelectTrigger>
             <SelectContent>
@@ -180,7 +252,9 @@ export default function BookingForm() {
                 name="locationType"
                 value="incall"
                 checked={formData.locationType === "incall"}
-                onChange={() => setFormData({ ...formData, locationType: "incall" })}
+                onChange={() =>
+                  setFormData({ ...formData, locationType: "incall" })
+                }
               />
               Incall
             </label>
@@ -190,16 +264,147 @@ export default function BookingForm() {
                 name="locationType"
                 value="outcall"
                 checked={formData.locationType === "outcall"}
-                onChange={() => setFormData({ ...formData, locationType: "outcall" })}
+                onChange={() =>
+                  setFormData({ ...formData, locationType: "outcall" })
+                }
               />
-               Outcall
+              Outcall
             </label>
           </div>
         </div>
 
+        <div className="space-y-2">
+          <Label
+            htmlFor="country"
+            className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
+          >
+            Country
+          </Label>
+          <Select
+            value={formData.countryCode}
+            onValueChange={(value) => {
+              const country = countries.find((c) => c.isoCode === value);
+              setFormData({
+                ...formData,
+                countryCode: value,
+                countryName: country?.name ?? value,
+                stateCode: "",
+                cityName: "",
+                stateName: "",
+              });
+            }}
+          >
+            <SelectTrigger
+              id="country"
+              className={`w-full h-12 ${
+                errors.countryCode ? "border-red-500" : ""
+              }`}
+            >
+              <SelectValue placeholder="Select country" />
+            </SelectTrigger>
+            <SelectContent>
+              {countries.map((c) => (
+                <SelectItem key={c.isoCode} value={c.isoCode}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.countryCode && (
+            <p className="text-sm text-red-500">{errors.countryCode}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label
+            htmlFor="state"
+            className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
+          >
+            State / Province
+          </Label>
+          <Select
+            value={formData.stateCode}
+            onValueChange={(value) => {
+              const state = states.find((s) => s.isoCode === value);
+              setFormData({ ...formData, stateCode: value, cityName: "", stateName: state?.name ?? value})
+            }}
+            disabled={!formData.countryCode}
+          >
+            <SelectTrigger
+              id="state"
+              className={`w-full h-12 ${
+                errors.stateCode ? "border-red-500" : ""
+              }`}
+            >
+              <SelectValue
+                placeholder={
+                  formData.countryCode
+                    ? "Select state/province"
+                    : "Select a country first"
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {states.map((s) => (
+                <SelectItem key={s.isoCode} value={s.isoCode}>
+                  {s.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.stateCode && (
+            <p className="text-sm text-red-500">{errors.stateCode}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label
+            htmlFor="city"
+            className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
+          >
+            City / Town
+          </Label>
+          <Select
+            value={formData.cityName}
+            onValueChange={(value) => {
+              // const city = cities.find((c) => c.name === value);
+              setFormData({ ...formData, cityName: value })
+            }}
+            disabled={!formData.stateCode}
+          >
+            <SelectTrigger
+              id="city"
+              className={`w-full h-12 ${
+                errors.cityName ? "border-red-500" : ""
+              }`}
+            >
+              <SelectValue
+                placeholder={
+                  formData.stateCode
+                    ? "Select city/town"
+                    : "Select a state first"
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {cities.map((ct) => (
+                <SelectItem key={`${ct.stateCode}-${ct.name}`} value={ct.name}>
+                  {ct.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.cityName && (
+            <p className="text-sm text-red-500">{errors.cityName}</p>
+          )}
+        </div>
+
         {/* Name Input */}
         <div className="space-y-2">
-          <Label htmlFor="name" className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg">
+          <Label
+            htmlFor="name"
+            className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
+          >
             <User size={20} />
             Full Name
           </Label>
@@ -216,7 +421,10 @@ export default function BookingForm() {
 
         {/* Phone Input */}
         <div className="space-y-2">
-          <Label htmlFor="phone" className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg">
+          <Label
+            htmlFor="phone"
+            className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
+          >
             <Phone size={20} />
             Phone Number
           </Label>
@@ -225,15 +433,22 @@ export default function BookingForm() {
             type="tel"
             placeholder="+1 (555) 123-4567"
             value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, phone: e.target.value })
+            }
             className={`w-full h-12 ${errors.phone ? "border-red-500" : ""}`}
           />
-          {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
+          {errors.phone && (
+            <p className="text-sm text-red-500">{errors.phone}</p>
+          )}
         </div>
 
         {/* Notes (Optional) */}
         <div className="space-y-2">
-          <Label htmlFor="notes" className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg">
+          <Label
+            htmlFor="notes"
+            className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
+          >
             <MessageSquare size={20} />
             Special Requests (Optional)
           </Label>
@@ -241,7 +456,9 @@ export default function BookingForm() {
             id="notes"
             placeholder="Any special requests or health concerns we should know about?"
             value={formData.notes}
-            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, notes: e.target.value })
+            }
             className="w-full min-h-24"
           />
         </div>
@@ -249,16 +466,21 @@ export default function BookingForm() {
         {/* Booking Summary */}
         {selectedService && (
           <div className="bg-[#d4f1e8] rounded-2xl p-6 space-y-2">
-            <h3 className="font-semibold text-[#2e2e2e] text-xl mb-3">Booking Summary</h3>
+            <h3 className="font-semibold text-[#2e2e2e] text-xl mb-3">
+              Booking Summary
+            </h3>
             <div className="text-[#2e2e2e] space-y-2">
               <p>
-                <span className="font-medium">Service:</span> {selectedService.name}
+                <span className="font-medium">Service:</span>{" "}
+                {selectedService.name}
               </p>
               <p>
-                <span className="font-medium">Duration:</span> {selectedService.duration}
+                <span className="font-medium">Duration:</span>{" "}
+                {selectedService.duration}
               </p>
               <p>
-                <span className="font-medium">Price:</span> ${selectedService.price}
+                <span className="font-medium">Price:</span> $
+                {selectedService.price}
               </p>
               {formData.date && (
                 <p>
@@ -289,5 +511,5 @@ export default function BookingForm() {
         </button>
       </form>
     </motion.div>
-  )
+  );
 }
