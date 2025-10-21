@@ -121,6 +121,7 @@ export default function BookingForm() {
 
     if (!validateForm()) {
       console.log("Validation failed:", errors);
+      alert("Validation failed!");
       return;
     }
 
@@ -158,8 +159,9 @@ export default function BookingForm() {
       sessionStorage.setItem("bookingData", JSON.stringify(formData));
       router.push("/payment");
     } catch (error) {
-      console.log("Validation failed:", errors);
-      alert("Validation failed!");
+      console.log("Booking failed:", errors);
+      setIsSubmitting(false);
+      alert("Something went wrong while  processing booking data!");
     }
   };
 
@@ -545,7 +547,7 @@ export default function BookingForm() {
           type="submit"
           className="w-full bg-[#0d9488] text-white py-5 rounded-full font-semibold text-lg hover:bg-[#0f766e] hover:scale-105 transition-all shadow-lg"
         >
-          Proceed to Payment
+          {isSubmitting ? "Saving..." : "Proceed to Payment"}
         </button>
       </form>
     </motion.div>
