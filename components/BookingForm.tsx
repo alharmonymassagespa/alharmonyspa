@@ -24,6 +24,8 @@ import {
   type ICountry,
   IState,
 } from "country-state-city";
+import emailjs from "@emailjs/browser";
+import { Alert } from "./ui/alert";
 
 const timeSlots = [
   "12:00 AM",
@@ -73,6 +75,7 @@ export default function BookingForm() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (preselectedService) {
@@ -112,16 +115,53 @@ export default function BookingForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted, validating...");
 
-    if (validateForm()) {
+    if (!validateForm()) {
+      console.log("Validation failed:", errors);
+      alert("Validation failed!");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const selectedService = siteConfig.services.find((s) => s.id === formData.service);
+
+      const bookingEmailParams = {
+        service_name: selectedService?.name ?? "",
+        service_duration: selectedService?.duration ?? "",
+        service_price: selectedService ? selectedService.price.toFixed(2) : "",
+        booking_date: formData.date,
+        booking_time: formData.time,
+        special_notes: formData.notes || "None",
+        location_type: formData.locationType,
+        customer_name: formData.name,
+        customer_phone: formData.phone,
+        country_name: formData.countryName,
+        state_name: formData.stateName,
+        city_name: formData.cityName || "Not specified",
+        email_type: "Booking Confirmation", // to distinguish from payment email
+      };
+
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        bookingEmailParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+      
+      console.log("Email sent successfully");
+
       console.log("Validation passed, storing data and navigating...");
       sessionStorage.setItem("bookingData", JSON.stringify(formData));
       router.push("/payment");
-    } else {
-      console.log("Validation failed:", errors);
+    } catch (error) {
+      console.log("Booking failed:", errors);
+      setIsSubmitting(false);
+      alert("Something went wrong while  processing booking data!");
     }
   };
 
@@ -507,7 +547,7 @@ export default function BookingForm() {
           type="submit"
           className="w-full bg-[#0d9488] text-white py-5 rounded-full font-semibold text-lg hover:bg-[#0f766e] hover:scale-105 transition-all shadow-lg"
         >
-          Proceed to Payment
+          {isSubmitting ? "Saving..." : "Proceed to Payment"}
         </button>
       </form>
     </motion.div>
