@@ -362,7 +362,7 @@ export default function BookingForm() {
             htmlFor="city"
             className="flex items-center gap-2 text-[#2e2e2e] font-semibold text-lg"
           >
-            City / Town
+            City / Town  (Optional)
           </Label>
           <Select
             value={formData.cityName}
