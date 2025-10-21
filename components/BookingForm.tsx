@@ -106,7 +106,7 @@ export default function BookingForm() {
       newErrors.countryCode = "Please select a country";
     if (!formData.stateCode)
       newErrors.stateCode = "Please select a state/province";
-    if (!formData.cityName) newErrors.cityName = "Please select a city/town";
+    // if (!formData.cityName) newErrors.cityName = "Please select a city/town";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -138,14 +138,14 @@ export default function BookingForm() {
       ? City.getCitiesOfState(formData.countryCode, formData.stateCode)
       : [];
 
-  const selectedCountryName = formData.countryCode
-    ? countries.find((c) => c.isoCode === formData.countryCode)?.name ??
-      formData.countryCode
-    : "";
-  const selectedStateName = formData.stateCode
-    ? states.find((s) => s.isoCode === formData.stateCode)?.name ??
-      formData.stateCode
-    : "";
+  // const selectedCountryName = formData.countryCode
+  //   ? countries.find((c) => c.isoCode === formData.countryCode)?.name ??
+  //     formData.countryCode
+  //   : "";
+  // const selectedStateName = formData.stateCode
+  //   ? states.find((s) => s.isoCode === formData.stateCode)?.name ??
+  //     formData.stateCode
+  //   : "";
 
   return (
     <motion.div
